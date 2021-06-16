@@ -13,7 +13,17 @@ export class DataServiceService {
   getGlobalData() {
     return this.http.get(this.globalDataUrl, { responseType: 'text' }).pipe(
       map(result => {
-        return result;
+
+        let rows = result.split('\n');
+        // console.log(rows);
+        rows.forEach(row=>{
+          let cols = row.split(/,(?=\S)/)
+          console.log(cols);
+
+        })
+
+
+        return [];
       })
     )
   }
