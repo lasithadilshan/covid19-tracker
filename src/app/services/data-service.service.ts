@@ -16,9 +16,11 @@ export class DataServiceService {
       map(result => {
         let data: GlobalDataSummery[] = [];
         let rows = result.split('\n');
+        rows.splice(0 , 1);
         // console.log(rows);
         rows.forEach(row=>{
           let cols = row.split(/,(?=\S)/)
+
           data.push({
             country : cols[3],
             confirmed : +cols[7],
