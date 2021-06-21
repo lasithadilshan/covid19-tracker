@@ -15,22 +15,35 @@ export class DataServiceService {
     return this.http.get(this.globalDataUrl, { responseType: 'text' }).pipe(
       map(result => {
         let data: GlobalDataSummery[] = [];
+        let raw = {}
         let rows = result.split('\n');
         rows.splice(0 , 1);
         // console.log(rows);
         rows.forEach(row=>{
           let cols = row.split(/,(?=\S)/)
 
-          data.push({
+          let cs = {
             country : cols[3],
             confirmed : +cols[7],
             deaths : +cols[8],
             recovered : +cols[9],
             active : +cols[10],
-          })
+          };
+          let temp : GlobalDataSummery = raw[cs.country];
+          if(temp){
+            temp.active = cs.active + temp.active
+            temp.confirmed = cs.confirmed + temp.confirmed
+            temp.deaths = cs.deaths + temp.deaths
+            temp.recovered = cs.recovered + temp.recovered
+
+            raw[cs.country] = temp;
+          }else{
+            raw[cs.country] = cs;
+          }
+
         })
 
-        console.log(data);
+        console.log(raw);
 
 
 
